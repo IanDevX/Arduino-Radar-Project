@@ -1,5 +1,7 @@
 #include <AccelStepper.h>
 
+// Test comment
+
 // ---------------- STEPPER SETUP ----------------
 // 28BYJ-48 via ULN2003 driver board, half-step mode: 4096 steps per full revolution
 const int STEPS_PER_REV = 4096;
