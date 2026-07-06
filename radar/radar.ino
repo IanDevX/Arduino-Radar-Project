@@ -5,15 +5,12 @@
 const int STEPS_PER_REV = 4096;
 const int SWEEP_STEPS = STEPS_PER_REV / 2; // 180 degrees = 2048 steps
 
-// NOTE: AccelStepper's HALF4WIRE pin order is IN1, IN3, IN2, IN4 (2nd and 3rd
-// pins swapped relative to the physical wiring). If the motor jitters, stalls,
-// or spins the wrong way, try swapping the middle two pin numbers below.
 AccelStepper stepper(AccelStepper::HALF4WIRE, 8, 10, 9, 11);
 
 // ---------------- ULTRASONIC ----------------
 const int trigPin = 6;
 const int echoPin = 7;
-const int MAX_RANGE_CM = 40; // adjust to taste (HC-SR04 handles up to ~400cm reliably)
+const int MAX_RANGE_CM = 40;
 
 long lastSampleStep = 0;
 const int SAMPLE_EVERY_N_STEPS = 4; // read distance every N steps instead of every step
