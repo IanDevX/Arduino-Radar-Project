@@ -152,7 +152,7 @@ while running:
                 except Exception:
                     pass
 
-    if want_to_quit and latest_angle == 0.0:  # only quit when the sweep is at the top
+    if want_to_quit and latest_angle == 3.141592653589793:  # only quit when the sweep is at the top
         motor_running = False
         ser.write(b'T')
         running = False
@@ -170,8 +170,10 @@ while running:
                 for line in complete_lines:
                     if "," in line:
                         angle_deg, distance = line.split(",")
-                        update_state(math.radians(
-                            float(angle_deg)), float(distance))
+                        angle = math.radians(
+                            180 - float(angle_deg))   # Flip the sweep
+
+                        update_state(angle, float(distance))
 
         except Exception:
             pass
