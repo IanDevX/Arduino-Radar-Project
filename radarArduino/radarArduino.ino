@@ -110,7 +110,7 @@ void updateBuzzer() {
       period = 500;
       break;
 
-    case 3
+    case 3:
       freq = 1800;
       period = 380; // fast enough to feel urgent, still clearly separate beeps
       break;
