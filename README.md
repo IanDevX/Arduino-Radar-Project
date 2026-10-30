@@ -10,15 +10,10 @@ The build, wired up and sitting in its 3D-printed enclosure:
 
 ![Build photo](images/Build_Photo.jpg)
 
-Running on a desk, picking up two "walls" drawn around it on paper:
+Running on a desk, picking up two bottles  around it 
 
 ![Radar running](images/preview.jpg)
 
-And here it is actually sweeping:
-
-https://github.com/user-attachments/assets/REPLACE_WITH_YOUR_UPLOADED_VIDEO_ID
-
-> The line above is a placeholder — GitHub doesn't let you embed a video file just by committing it to the repo and linking the path like an image. To get a real embed: open an issue or PR on your repo, drag `images/demo.mp4` straight into the comment box, let it upload, then copy the URL GitHub generates and paste it in place of the line above (delete the placeholder text, keep just the URL on its own line). Once you've done that once, you can delete `images/demo.mp4` from the repo itself if you want — the uploaded copy is hosted independently by GitHub.
 
 ## What you'll need
 
