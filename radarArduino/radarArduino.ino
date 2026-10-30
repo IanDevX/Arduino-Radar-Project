@@ -2,14 +2,14 @@
 
 // Test comment
 
-// ---------------- STEPPER SETUP ----------------
+//  STEPPER SETUP
 // 28BYJ-48 via ULN2003 driver board, half-step mode: 4096 steps per full revolution
 const int STEPS_PER_REV = 4096;
 const int SWEEP_STEPS = STEPS_PER_REV / 2; // 180 degrees = 2048 steps
 
 AccelStepper stepper(AccelStepper::HALF4WIRE, 8, 10, 9, 11);
 
-// ---------------- ULTRASONIC ----------------
+// ULTRASONIC
 const int trigPin = 6;
 const int echoPin = 7;
 const int MAX_RANGE_CM = 40;
@@ -17,7 +17,7 @@ const int MAX_RANGE_CM = 40;
 long lastSampleStep = 0;
 const int SAMPLE_EVERY_N_STEPS = 4; // read distance every N steps instead of every step
 
-// ---------------- BUZZER ----------------
+//  BUZZER 
 const int buzzerPin = 12;
 
 // zone boundaries - match the pygame radar's range rings (40cm, 27cm, 13cm)
@@ -37,7 +37,7 @@ int currentZone = 0;
 
 bool buzzerOn = false; // tracks whether tone() is currently active, to avoid restarting it every loop
 
-// ---------------- RUN/PAUSE STATE ----------------
+// RUN/PAUSE STATE 
 // Controlled by the Python side: space bar sends 'T' to toggle this.
 bool running = false;
 
@@ -55,8 +55,8 @@ long readDistanceCM() {
   return duration * 0.034 / 2;
 }
 
-// Determines which zone we're in, with hysteresis so boundary readings
-// don't cause rapid flicker between tones. Called once per new sensor reading.
+// Determines which zone we're in
+// removes flicker between tones
 void updateZone(long dist) {
   if (dist < 0) {
     currentZone = 0; // calm - nothing detected
@@ -64,20 +64,20 @@ void updateZone(long dist) {
   }
 
   switch (currentZone) {
-    case 0: // was calm -> pick a zone fresh, no hysteresis needed entering from nothing
-    case 1: // was far
+    case 0: 
+    case 1: 
       if (dist <= ZONE_NEAR_CM) currentZone = 3;
       else if (dist <= ZONE_MID_CM) currentZone = 2;
       else currentZone = 1;
       break;
 
-    case 2: // was mid -> needs to clear buffer to go back to far, or drop into near
+    case 2:
       if (dist <= ZONE_NEAR_CM) currentZone = 3;
       else if (dist > ZONE_MID_CM + HYSTERESIS_CM) currentZone = 1;
       // else stays mid
       break;
 
-    case 3: // was near -> needs to clear buffer to go back to mid
+    case 3: 
       if (dist > ZONE_NEAR_CM + HYSTERESIS_CM) {
         currentZone = (dist <= ZONE_MID_CM) ? 2 : 1;
       }
@@ -86,7 +86,7 @@ void updateZone(long dist) {
   }
 }
 
-// Non-blocking buzzer update. Call this every loop() iteration.
+
 void updateBuzzer() {
   unsigned long now = millis();
 
@@ -110,7 +110,7 @@ void updateBuzzer() {
       period = 500;
       break;
 
-    case 3: // near zone (0-13cm) - distinct tone, a little faster still, but capped
+    case 3
       freq = 1800;
       period = 380; // fast enough to feel urgent, still clearly separate beeps
       break;
@@ -143,7 +143,7 @@ void setup() {
 }
 
 void loop() {
-  // ---------------- CHECK FOR START/PAUSE COMMAND ----------------
+  // CHECK FOR START/PAUSE COMMAND 
   if (Serial.available() > 0) {
     char cmd = Serial.read();
     if (cmd == 'T') {
@@ -182,7 +182,7 @@ void loop() {
     if (dist < 0 || dist > MAX_RANGE_CM) dist = -1;
     lastDist = dist;
 
-    updateZone(dist); // decides which of the 4 zones we're in, with hysteresis
+    updateZone(dist); // decides which of the 4 zones we're in
 
     float angle = (float)currentStep / SWEEP_STEPS * 180.0;
 
@@ -191,5 +191,5 @@ void loop() {
     Serial.println(dist);
   }
 
-  updateBuzzer(); // called every loop iteration so the beep timing stays smooth
+  updateBuzzer();
 }
